@@ -2,7 +2,7 @@ const playwright = require("playwright");
 const tempmail = require("tempmail.lol");
 const fs = require("node:fs");
 
-// USAGE: node . [headless: false | true]
+// USAGE: node . <browser: firefox | chrome | ie / webkit> <headless: true | false>
 
 (async () => {
     await generateAccount();
@@ -11,11 +11,18 @@ const fs = require("node:fs");
 
 async function generateAccount() {
     var run_headless = false;
-    let headless_inp = process.argv[2];
+    let headless_inp = process.argv[3];
     if (headless_inp == "true") run_headless = true;
 
 
-    const browser = await playwright["chromium"].launch({
+    var browser_opt;
+    let browser_opt_inp = process.argv[2];
+    if (browser_opt_inp == "chrome")        browser_opt = "chromium";
+    if (browser_opt_inp == "ie")            browser_opt = "webkit";
+    if (browser_opt_inp == "webkit")        browser_opt = "webkit";
+    if (browser_opt_inp == "firefox")       browser_opt = "firefox";
+
+    const browser = await playwright[browser_opt].launch({
         headless: run_headless
     });
     const context = await browser.newContext();
