@@ -6,4 +6,4 @@ Uses Playwright(.js) to create a new Browser and generate accounts.
 <br>
 (Higher quality: https://youtu.be/gLBC5mcDZpo)
 
-Usage: `node . <browser: firefox | chrome | ie | webkit> <headless: true | false>`
+Usage: `node . <amount: multible | single | *num*> <browser: firefox | chrome | ie | webkit> <headless: true | false>`
