@@ -22,7 +22,7 @@ echo "Headless: $headless"
 echo "Delay: $delay s"
 echo ""
 echo "Change delay and/or headless:" 
-echo "./acc.sh <-delay [delay]> <-headless [headless]>"
+echo "./acc.sh [-delay: *num*] [-headless: true | false]"
 echo "===================="
 echo ""
 
