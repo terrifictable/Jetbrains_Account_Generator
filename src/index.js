@@ -27,7 +27,7 @@ async function sleep(delay) {
 
     do {
         await generateAccount();
-        await sleep(5000);
+        await sleep(2500);
     } while (process.argv[2] == "multible")
 })();
 
@@ -92,23 +92,26 @@ async function generateAccount() {
     newPage.goto(link);
 
 
-    await newPage.waitForLoadState('domcontentloaded', { delay: 2000 });
+    await newPage.waitForLoadState('domcontentloaded' /*, { delay: 2000 } */);
     
     console.log("Writing name, password, etc!");
     var firstname = genRandom(10);
-    await newPage.type("input[id=firstName]", firstname, { delay: 253 });
-    await newPage.type("input[id=lastName]", genRandom(Math.floor(Math.random()*35+1)), { delay: 137 });
-    await newPage.type("input[id=userName]", firstname, { delay: 320 });
+    await newPage.type("input[id=firstName]", firstname /*, { delay: 253 } */);
+    await newPage.type("input[id=lastName]", genRandom(Math.floor(Math.random()*35+1)) /*, { delay: 137 } */);
+    await newPage.type("input[id=userName]", firstname /*, { delay: 320 } */);
     var password = genRandom(20);
-    await newPage.type("input[id=password]", password, { delay: 169 });
-    await newPage.type("input[id=pass2]", password, { delay: 146 });
-    await newPage.click("input[name=privacy]", { delay: 129 });
+    await newPage.type("input[id=password]", password /*, { delay: 169 } */);
+    await newPage.type("input[id=pass2]", password /*, { delay: 146 } */);
+    await newPage.click("input[name=privacy]" /*, { delay: 129 } */);
     await newPage.keyboard.press("Enter", { delay: 2000 });
     await newPage.waitForSelector("div[class=js-notification-widget]");
 
     await browser.close();
     
-    fs.appendFileSync("./accounts.txt", `[\"name\": \"${firstname}\", \"email\": \"${email}\", \"password\": \"${password}\"]\n`);
+    if (!fs.readFileSync("./accounts.csv").includes("name, email, password\n")) {
+        fs.writeFileSync("./accounts.csv", "name, email, password\n");
+    }
+    fs.appendFileSync("./accounts.csv", `${firstname}, ${email}, ${password}\n`);
 
     console.log("\n\n  ACCOUNT GENERATED");
     console.log(" =====================");
