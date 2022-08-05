@@ -77,6 +77,7 @@ async function generateAccount() {
 
     console.log("Creating account!");
     do {
+        await sleep(1500);
         var emails = await getInboxContents(emailToken);
         if (emails == null)
             console.log("Nothing...");
@@ -108,9 +109,7 @@ async function generateAccount() {
 
     await browser.close();
     
-    if (!fs.readFileSync("./accounts.csv").includes("name, email, password\n")) {
-        fs.writeFileSync("./accounts.csv", "name, email, password\n");
-    }
+    if (!existsSync("./accounts.csv")) await fs.writeFile("./accounts.csv", "name, email, password\n", function (err) { if (err) { console.log(err); } }); 
     fs.appendFileSync("./accounts.csv", `${firstname}, ${email}, ${password}\n`);
 
     console.log("\n\n  ACCOUNT GENERATED");
